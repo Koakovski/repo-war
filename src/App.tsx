@@ -1,10 +1,11 @@
 import { useState } from "react";
 import "./app.css";
 import { useRepos } from "./hooks";
+import { Game } from "./components";
 
 const App = () => {
     const [showGame, setShowGame] = useState<boolean>(false);
-    const [repos] = useRepos(100);
+    const [repos, setRepos, allRepositories] = useRepos(100);
 
     const handleStartClick = () => {
         setShowGame(true);
@@ -32,10 +33,12 @@ const App = () => {
                 </>
             )}
             {showGame && (
-                // TODO: Create Game Component
-                <>
-                    <h1>Game</h1>
-                </>
+                <Game
+                    repos={repos}
+                    setRepos={setRepos}
+                    originalRepos={allRepositories}
+                    setShowGame={setShowGame}
+                />
             )}
         </main>
     );
