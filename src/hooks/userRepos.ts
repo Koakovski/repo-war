@@ -5,7 +5,7 @@ const randomSince = Math.floor(Math.random() * 1000000);
 
 const fetchRepositories = async (
     amount: number,
-    setters: Dispatch<SetStateAction<any[]>>[]
+    setters: Dispatch<SetStateAction<Repo[]>>[]
 ) => {
     const res = await githubClient.request("GET /search/repositories", {
         q: `is:public stars:>1000 fork:false`,
@@ -18,11 +18,11 @@ const fetchRepositories = async (
     setters.forEach((setter) => setter(res.data.items));
 };
 
-type useReposResult = [any[], Dispatch<SetStateAction<any[]>>, any[]];
+type useReposReturnType = [Repo[], Dispatch<SetStateAction<Repo[]>>, Repo[]];
 
-const useRepos = (amount: number): useReposResult => {
-    const [allRepositories, setAllRepositories] = useState<any[]>([]);
-    const [repositories, setRepositories] = useState<any[]>([]);
+const useRepos = (amount: number): useReposReturnType => {
+    const [allRepositories, setAllRepositories] = useState<Repo[]>([]);
+    const [repositories, setRepositories] = useState<Repo[]>([]);
 
     useEffect(() => {
         fetchRepositories(amount, [setAllRepositories, setRepositories]);
